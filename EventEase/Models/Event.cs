@@ -9,6 +9,8 @@ namespace EventEase.Models
 
         public string EventName { get; set; }
 
+        public string EventImg {  get; set; }
+
         public ICollection<Booking>? Bookings { get; set; }
     }
 }

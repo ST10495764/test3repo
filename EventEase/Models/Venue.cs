@@ -13,6 +13,8 @@ namespace EventEase.Models
 
         public int VenueCapaity { get; set; }
 
+        public string VenueImg { get; set; }
+
         public ICollection<Booking>? Bookings { get; set; } 
     }
 }
