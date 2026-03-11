@@ -59,7 +59,7 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,StartDate,EndDate")] Booking booking)
+        public async Task<IActionResult> Create([Bind("BookingId,EventId,VenueId,StartDate,EndDate")] Booking booking)
         {
             if (ModelState.IsValid)
             {
