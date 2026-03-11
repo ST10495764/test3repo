@@ -23,7 +23,7 @@ namespace EventEase.Controllers
         public async Task<IActionResult> Index()
         {
             var EventEaseContext = _context.Booking.Include(b => b.Venue).Include(b => b.Event);
-            return View(await _context.Booking.ToListAsync());
+            return View(await EventEaseContext.ToListAsync());
         }
 
        
@@ -59,7 +59,7 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,EventId,VenueId,StartDate,EndDate")] Booking booking)
+        public async Task<IActionResult> Create([Bind("BookingId,Event,Venue,StartDate,EndDate")] Booking booking)
         {
             if (ModelState.IsValid)
             {
