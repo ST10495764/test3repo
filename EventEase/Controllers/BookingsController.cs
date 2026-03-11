@@ -59,7 +59,7 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,StartDate,EndDate")] Booking booking)
+        public async Task<IActionResult> Create([Bind("BookingId,StartDate,EndDate,VenueId,EventId")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +67,8 @@ namespace EventEase.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName");
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName");
             return View(booking);
         }
 
