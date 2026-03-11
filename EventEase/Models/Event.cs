@@ -7,9 +7,10 @@ namespace EventEase.Models
         [Key]
         public int EventId { get; set; }
 
+        [Required]
         public string EventName { get; set; }
 
-        public string EventImg {  get; set; }
+        public string? EventImg {  get; set; }
 
         public ICollection<Booking>? Bookings { get; set; }
     }
