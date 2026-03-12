@@ -8,10 +8,11 @@ namespace EventEase.Models
         public int BookingId { get; set; }
 
 
-        [Required]
+        public int EventId { get; set; }
+
         public virtual Event? Event { get; set; }
 
-        [Required]
+        public int VenueId { get; set; }
         public virtual Venue? Venue { get; set; }
 
         public DateTime StartDate { get; set; }
