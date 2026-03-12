@@ -22,7 +22,7 @@ namespace EventEase.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var EventEaseContext = _context.Booking.Include(b => b.Venue).Include(b => b.Event);
+            var EventEaseContext = _context.Booking.Include(m => m.Event).Include(m => m.Venue);
             return View(await EventEaseContext.ToListAsync());
         }
 
@@ -48,8 +48,9 @@ namespace EventEase.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName");
             ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName");
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName");
+
             return View();
             
         }
@@ -59,15 +60,19 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,Event,Venue,StartDate,EndDate")] Booking booking)
+        public async Task<IActionResult> Create(Booking booking)
+
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-          
+            
+
+
             return View(booking);
         }
 
