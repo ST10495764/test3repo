@@ -7,8 +7,8 @@ namespace EventEase.Models
         [Key]
         public int EventId { get; set; }
 
-        [Required]
-        public string EventName { get; set; }
+   
+        public string? EventName { get; set; }
 
         public string? EventImg {  get; set; }
 
