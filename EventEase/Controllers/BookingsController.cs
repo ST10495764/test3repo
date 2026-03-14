@@ -79,6 +79,9 @@ namespace EventEase.Controllers
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName");
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName");
+
             if (id == null)
             {
                 return NotFound();
@@ -97,8 +100,10 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookingId,StartDate,EndDate")] Booking booking)
+        public async Task<IActionResult> Edit(int id, Booking booking)
         {
+            
+
             if (id != booking.BookingId)
             {
                 return NotFound();
