@@ -10,10 +10,10 @@ namespace EventEase.Models
 
         public int EventId { get; set; }
 
-        public virtual Event? Event { get; set; }
+        public Event? Event { get; set; }
 
         public int VenueId { get; set; }
-        public virtual Venue? Venue { get; set; }
+        public Venue? Venue { get; set; }
 
         public DateTime StartDate { get; set; }
 
