@@ -61,7 +61,7 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Booking booking)
+        public async Task<IActionResult> Create([Bind("BookingId, VenueId, EventId, StartDate, EndDate")]  Booking booking)
 
         {
 
@@ -141,8 +141,8 @@ namespace EventEase.Controllers
                 return NotFound();
             }
 
-            var booking = await _context.Booking
-                .FirstOrDefaultAsync(m => m.BookingId == id);
+            var booking = await _context.Booking.Include(m => m.Event).Include(m => m.Venue)
+               .FirstOrDefaultAsync(m => m.BookingId == id);
             if (booking == null)
             {
                 return NotFound();
