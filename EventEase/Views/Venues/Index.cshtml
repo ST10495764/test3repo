@@ -30,7 +30,13 @@
                         <td>@Html.DisplayFor(modelItem => item.VenueName)</td>
                         <td>@Html.DisplayFor(modelItem => item.VenueLocation)</td>
                         <td>@Html.DisplayFor(modelItem => item.VenueCapaity)</td>
-                        <td>@Html.DisplayFor(modelItem => item.VenueImg)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.VenueImg))
+                            {
+                                <img src="@item.VenueImg"  style="width:100px;height:auto;" />
+                            }
+
+                        </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.VenueId" class="btn btn-sm btn-primary">Edit</a>
                             <a asp-action="Details" asp-route-id="@item.VenueId" class="btn btn-sm btn-info">Details</a>

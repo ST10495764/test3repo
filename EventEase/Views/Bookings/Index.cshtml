@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EventEase.Models.Booking>
+﻿@* @model IEnumerable<EventEase.Models.Booking>
 
 @{
     ViewData["Title"] = "Index";
@@ -65,4 +65,57 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
+
+@model IEnumerable<EventEase.Models.Booking>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="venue-index-container">
+    <div class="text-center mb-4">
+        <h1 class="display-4">ALL BOOKINGS</h1>
+    </div>
+
+    <p>
+        <a asp-action="Create" class="btn btn-success">Create New</a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Event.EventName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Venue.VenueName)</th>
+                    <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.Venue.VenueImg)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Event.EventName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Venue.VenueName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Venue.VenueImg))
+                            {
+                                <img src="@item.Venue.VenueImg" alt="@item.Venue.VenueName" style="width:100px;height:auto;" />
+                            }
+
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.BookingId" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
