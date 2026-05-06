@@ -19,6 +19,8 @@ namespace EventEase
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<BlobService>();//REGISTERING BLOB SERVICE
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
