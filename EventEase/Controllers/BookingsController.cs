@@ -172,24 +172,24 @@ namespace EventEase.Controllers
             return _context.Booking.Any(e => e.BookingId == id);
         }
 
-        //SEARCH METHOD FOR BOOOKINGS
-        public async Task<IActionResult>BookingsHistory(BookingHistoryViewModel model)
-        {
-            var query = _context.Booking.Include(b => b.Event).Include(b => b.Venue).AsQueryable(); //adds the whole dataset as a list
+        ////SEARCH METHOD FOR BOOOKINGS
+        //public async Task<IActionResult>BookingsHistory(BookingHistoryViewModel model)
+        //{
+        //    var query = _context.Booking.Include(b => b.Event).Include(b => b.Venue).AsQueryable(); //adds the whole dataset as a list
 
-            if (!string.IsNullOrEmpty(model.EventNameSearch))
-            {
-                query = query.Where(b => b.Event.EventName.Contains(model.EventNameSearch));
-            }
+        //    if (!string.IsNullOrEmpty(model.EventNameSearch))
+        //    {
+        //        query = query.Where(b => b.Event.EventName.Contains(model.EventNameSearch));
+        //    }
 
-            if (!string.IsNullOrEmpty(model.VenueNameSearch))
-            {
-                query = query.Where(b => b.Venue.VenueName.Contains(model.VenueNameSearch));
-            }
+        //    if (!string.IsNullOrEmpty(model.VenueNameSearch))
+        //    {
+        //        query = query.Where(b => b.Venue.VenueName.Contains(model.VenueNameSearch));
+        //    }
 
-            model.Bookings = await query.OrderByDescending(b => b.EndDate).ToListAsync();
+        //    model.Bookings = await query.OrderByDescending(b => b.EndDate).ToListAsync();
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
     }
 }

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EventEase.ViewModels.BookingHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Booking History";
+}
+
+<h1 class="mb-4">Booking History</h1>
+
+<form method="get" asp-action="BookingHistory" class="mb-4">
+
+    <div class="row g-2">
+
+        <!-- Booking ID -->
+        <div class="col-md-2">
+            <input type="number"
+                   name="bookingId"
+                   class="form-control"
+                   placeholder="Booking ID" />
+        </div>
+
+        <!-- Venue Name -->
+        <div class="col-md-3">
+            <input type="text"
+                   name="EventName"
+                   class="form-control"
+                   placeholder="Event Name" />
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-md-2">
+            <input type="date"
+                   name="startDate"
+                   class="form-control" />
+        </div>
+
+        <!-- End Date -->
+        <div class="col-md-2">
+            <input type="date"
+                   name="endDate"
+                   class="form-control" />
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+
+            <a asp-action="BookingHistory"
+               class="btn btn-secondary">
+                Reset
+            </a>
+        </div>
+
+    </div>
+
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>BookingID</th>
+                <th>Event</th>
+                <th>Venue</th>
+                <th>Capacity</th>
+                <th>Location</th>
+                <th>Venue Image</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BookingId</td>
+
+                    <td>@item.EventName</td>
+
+                    <td>@item.VenueName</td>
+
+                    <td>@item.VenueCapacity</td>
+
+                    <td>@item.VenueLocation</td>
+
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.VenueImg))
+                        {
+                            <img src="@item.VenueImg"
+                                 class="img-thumbnail"
+                                 style="width:120px;height:80px;object-fit:cover;" />
+                        }
+
+                    </td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
