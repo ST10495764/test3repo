@@ -1,6 +1,6 @@
 ﻿using EventEase.Models;
 
-namespace EventEase.Controllers
+namespace EventEase.ViewModels
 {
     public class BookingHistoryViewModel
     {

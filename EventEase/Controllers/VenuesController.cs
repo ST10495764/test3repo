@@ -13,11 +13,16 @@ namespace EventEase.Controllers
     public class VenuesController : Controller
     {
         private readonly EventEaseContext _context;
+        private readonly BlobService _blobService;
 
-        public VenuesController(EventEaseContext context)
+        public VenuesController(EventEaseContext context, BlobService blobService)
         {
             _context = context;
+            _blobService = blobService;
         }
+        
+
+       
 
         // GET: Venues
         public async Task<IActionResult> Index()
@@ -52,19 +57,31 @@ namespace EventEase.Controllers
         // POST: Venues/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VenueId,VenueName,VenueLocation,VenueCapaity,VenueImg")] Venue venue)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+     
+        public async Task<IActionResult> Create(
+    [Bind("VenueId,VenueName,VenueLocation,VenueCapaity")] Venue venue,
+    IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    // Upload to Azurite
+                    var imageUrl = await _blobService.UploadFileAsync(imageFile);
+
+                    // Save URL to DB
+                    venue.VenueImg = imageUrl;
+                }
+
                 _context.Add(venue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(venue);
         }
-
         // GET: Venues/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
