@@ -6,14 +6,20 @@ namespace EventEase.ViewModels
     {
         public List<Booking>? Bookings {  get; set; }
 
-        public string? BookingNameSearch {  get; set; }
+        public int? BookingId {  get; set; }
 
-        public string? EventNameSearch { get; set; }
+        public string? EventName { get; set; }
 
-        public string? VenueNameSearch { get; set; }
+        public string? VenueName { get; set; }
 
-        public DateTime? StartDateSearch {  get; set; }
+        public int? VenueCapacity { get; set; }
 
-        public DateTime? EndDateSearch { get; set; }
+        public string? VenueLocation { get; set; }
+
+        public string? VenueImg { get; set; }
+
+        public DateTime? StartDate {  get; set; }
+
+        public DateTime? EndDate { get; set; }
     }
 }
