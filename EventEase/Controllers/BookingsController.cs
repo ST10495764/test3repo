@@ -62,20 +62,38 @@ namespace EventEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId, VenueId, EventId, StartDate, EndDate")]  Booking booking)
 
+        public async Task<IActionResult> Create([Bind("BookingId, VenueId, EventId, StartDate, EndDate")] Booking booking)
         {
-
-            if (ModelState.IsValid)
+            if (booking.StartDate >= booking.EndDate)
             {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "End date must be after start date.");
             }
-            
 
+            // CHECK OVERLAP
+            var isOverlapping = await _context.Booking
+                .AnyAsync(b =>
+                    b.VenueId == booking.VenueId &&
+                    b.BookingId != booking.BookingId &&
+                    b.StartDate < booking.EndDate &&
+                    b.EndDate > booking.StartDate
+                );
 
-            return View(booking);
+            if (isOverlapping)
+            {
+                ModelState.AddModelError("", "This venue is already booked for the selected period.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", booking.EventId);
+                ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", booking.VenueId);
+                return View(booking);
+            }
+
+            _context.Add(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Bookings/Edit/5
@@ -109,6 +127,18 @@ namespace EventEase.Controllers
             if (id != booking.BookingId)
             {
                 return NotFound();
+            }
+            var isOverlapping = await _context.Booking
+            .AnyAsync(b =>
+                b.VenueId == booking.VenueId &&
+                b.BookingId != booking.BookingId &&
+                b.StartDate < booking.EndDate &&
+                b.EndDate > booking.StartDate
+            );
+
+            if (isOverlapping)
+            {
+                ModelState.AddModelError("", "This venue is already booked for the selected period.");
             }
 
             if (ModelState.IsValid)
@@ -172,24 +202,6 @@ namespace EventEase.Controllers
             return _context.Booking.Any(e => e.BookingId == id);
         }
 
-        ////SEARCH METHOD FOR BOOOKINGS
-        //public async Task<IActionResult>BookingsHistory(BookingHistoryViewModel model)
-        //{
-        //    var query = _context.Booking.Include(b => b.Event).Include(b => b.Venue).AsQueryable(); //adds the whole dataset as a list
-
-        //    if (!string.IsNullOrEmpty(model.EventNameSearch))
-        //    {
-        //        query = query.Where(b => b.Event.EventName.Contains(model.EventNameSearch));
-        //    }
-
-        //    if (!string.IsNullOrEmpty(model.VenueNameSearch))
-        //    {
-        //        query = query.Where(b => b.Venue.VenueName.Contains(model.VenueNameSearch));
-        //    }
-
-        //    model.Bookings = await query.OrderByDescending(b => b.EndDate).ToListAsync();
-
-        //    return View(model);
-        //}
+        
     }
 }

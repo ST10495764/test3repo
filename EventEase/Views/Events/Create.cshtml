@@ -7,6 +7,7 @@
 <h1>Create Event</h1>
 
 <hr />
+<form asp-action="Create" enctype="multipart/form-data">
 <div class="row">
     <div class="col-md-4">
 
@@ -22,9 +23,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="EventImg" class="control-label"></label>
-                    <input asp-for="EventImg" class="form-control" />
-                    <span asp-validation-for="EventImg" class="text-danger"></span>
+                    <label>Venue Image</label>
+                    <input type="file" name="imageFile" class="form-control" />
                 </div>
 
                 <div class="form-group">
@@ -38,6 +38,7 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
+    </form>
 </div>
 
 @section Scripts {
